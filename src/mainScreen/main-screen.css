@@ -1,0 +1,82 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.main-screen {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== Верхняя секция (50% высоты экрана) ===== */
+.top-section {
+  position: relative;
+  width: 100%;
+  height: 50vh;
+  overflow: hidden;
+}
+
+.top-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Центральная картинка - поверх top-bg */
+.center-image {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  max-height: 100%;
+  z-index: 10;
+}
+
+/* ===== Нижняя секция ===== */
+.bottom-section {
+  position: relative;
+  width: 100%;
+  min-height: 50vh;
+}
+
+/* Фоновая картинка - на заднем плане */
+.bottom-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Блоки - поверх фоновой картинки */
+.blocks-container {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 0px;
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+}
+
+/* Общие стили для блоков */
+.block {
+  width: 100%;
+  
+  
+  
+ 
+  
+  
+}
+
+
+
