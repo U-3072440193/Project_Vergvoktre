@@ -14,9 +14,10 @@ function MainScreen() {
                     src={world}
                     alt="Top background"
                     className="top-bg"
+                    
                 />
                 {/* Центральная картинка с регулируемым положением */}
-
+                 
             </div>
             <img
                 src={tree}
