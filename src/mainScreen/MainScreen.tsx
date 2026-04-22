@@ -7,6 +7,7 @@ import tree from "../assets/main/SVG/tree.svg";
 import GalleryMode from "../galleryMode/GalleryMode";
 import Block1 from "./BlockOne";
 import Block2 from "./BlockTwo";
+import RootDown from "./RootDown";
 
 import { artItems } from "../data/artData";
 
@@ -30,7 +31,7 @@ function MainScreen() {
                 <img src={world} alt="Top background" className="top-bg" />
             </div>
 
-            <img src={tree} alt="Center image" className="center-image" style={{ top: "55%" }} />
+            <img src={tree} alt="Center image" className="center-image" />
 
             <div className="bottom-section">
                 <img src={backgroundimg} alt="Bottom background" className="bottom-bg" />
@@ -40,6 +41,7 @@ function MainScreen() {
                     <Block2 arts={artItems} onArtClick={setSelectedArt} />
                     <Block1 arts={artItems} onArtClick={setSelectedArt} />
                     <Block2 arts={artItems} onArtClick={setSelectedArt} />
+                    <RootDown arts={artItems} onArtClick={setSelectedArt} />
                 </div>
             </div>
         </section>

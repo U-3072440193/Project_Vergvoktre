@@ -1,3 +1,4 @@
+/* ===== ОСНОВНЫЕ СТИЛИ ===== */
 .opening-screen {
   position: fixed;
   top: 0;
@@ -7,49 +8,302 @@
   overflow: hidden;
 }
 
+/* ===== ФОН ===== */
 .background-image {
-  width: 100%;
+  position: absolute;
+  width: 100vw;
   height: 100%;
   object-fit: cover;
   display: block;
+  z-index: 1;
 }
 
-/* Контейнер для иконок в линию */
+/* ===== ИКОНКИ ===== */
 .icons-line {
   position: absolute;
   display: flex;
-  /* 👇 РЕГУЛИРУЙ РАССТОЯНИЕ МЕЖДУ ИКОНКАМИ */
-  gap: 970px;
-  /* 👇 РЕГУЛИРУЙ ПОЛОЖЕНИЕ ПО ГОРИЗОНТАЛИ */
+  flex-direction: row;
   left: 50%;
   transform: translateX(-50%);
-  /* 👇 РЕГУЛИРУЙ ПОЛОЖЕНИЕ ПО ВЕРТИКАЛИ */
   top: 60%;
-  /* Альтернатива: bottom: 20%; */
-  
-  z-index: 10;
+  z-index: 50;
+  transition: opacity 0.2s;
+  gap: 52vw; /* базовое значение */
 }
 
-/* Стили для иконок */
+.icons-line.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* ===== ИКОНКИ ===== */
+.icons-line {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 60%;
+  z-index: 50;
+  transition: opacity 0.2s;
+  gap: 52vw;
+}
+
+.icons-line.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
 .icon {
-  width: 80px;  /* 👈 РЕГУЛИРУЙ РАЗМЕР */
+  width: 80px;
   height: 80px;
   cursor: pointer;
-  transition: transform 0.2s, opacity 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   object-fit: contain;
 }
 
+/* Левая иконка (exit) - чёрная, приглушённая */
+.exit-icon {
+  filter: brightness(0.35); /* Приглушённая чёрная */
+  opacity: 0.6;
+}
+
+/* Правая иконка (enter) - белая, приглушённая */
+.enter-icon {
+  filter: brightness(0.85); /* Приглушённая белая */
+  opacity: 0.7;
+}
+
+/* ХОВЕР для чёрной иконки - 100% чёрная + чёрный ореол */
+.exit-icon:hover {
+  filter: brightness(1) drop-shadow(0 0 12px rgba(0, 0, 0, 0.8));
+  opacity: 1;
+  
+}
+
+/* ХОВЕР для белой иконки - 100% белая + белый ореол */
 .enter-icon:hover {
-  transform: scale(1.1);
-  opacity: 0.9;
+  filter: brightness(1) drop-shadow(0 0 12px rgba(255, 255, 255, 0.9));
+  opacity: 1;
+  
 }
 
-/* Если нужно поменять порядок иконок (enter слева, exit справа) */
-.icons-line {
-  flex-direction: row;
+.enter-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Если нужно наоборот (exit слева, enter справа) */
-.icons-line.reverse {
-  flex-direction: row-reverse;
+/* ===== MAIN WRAPPER ===== */
+.main-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
+}
+
+/* ===== РАСТУЩИЙ ПРЯМОУГОЛЬНИК ===== */
+.growing-rectangle {
+  position: fixed;
+  width: 80px;
+  height: 80px;
+  background-color: black;
+  border-radius: 0;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 300;
+  pointer-events: none;
+}
+
+.growing-rectangle.grow {
+  transform: translate(-50%, -50%) scale(60);
+}
+
+.growing-rectangle.stay-black {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* ===== ЧЁРНЫЙ СЛОЙ ===== */
+.black-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index: 200;
+  transform: translateX(0);
+  transition: transform 1.5s cubic-bezier(0.45, 0, 0.55, 1);
+  pointer-events: none;
+  opacity: 0;
+}
+
+.black-layer.active {
+  opacity: 1;
+}
+
+.black-layer.slide-left {
+  transform: translateX(-100%);
+}
+
+/* ===== БЕЛЫЙ СЛОЙ ===== */
+.white-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  z-index: 150;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.01s;
+}
+
+.white-layer.show {
+  opacity: 1;
+  transition: opacity 0.01s;
+}
+
+.white-layer.fade-out {
+  opacity: 0;
+  transition: opacity 1.2s ease-out;
+}
+
+/* ===== МЕДИА-ЗАПРОСЫ (ДОЛЖНЫ БЫТЬ В КОНЦЕ) ===== */
+
+/* Большие экраны 1400px+ */
+@media (min-width: 1401px) {
+  .icons-line {
+    gap: 52vw;
+  }
+  
+  .icon {
+    width: 75px;
+    height: 75px;
+  }
+}
+
+/* Экран 1300-1400px */
+@media (max-width: 1400px) {
+  .icons-line {
+    gap: 51vw;
+  }
+  
+  .icon {
+    width: 70px;
+    height: 70px;
+  }
+}
+/* Экран 1200-1300px */
+@media (max-width: 1350px) {
+  .icons-line {
+    gap: 53vw;
+  }
+  
+  .icon {
+    width: 65px;
+    height: 65px;
+  }
+}
+
+/* Экран 1200-1300px */
+@media (max-width: 1300px) {
+  .icons-line {
+    gap: 52vw;
+  }
+  
+  .icon {
+    width: 60px;
+    height: 60px;
+  }
+}
+
+/* Экран 1000-1200px */
+@media (max-width: 1200px) {
+  .icons-line {
+    gap: 57vw;
+  }
+  
+  .icon {
+    width: 55px;
+    height: 55px;
+  }
+}
+
+/* Экран 800-1000px */
+@media (max-width: 1100px) {
+  .icons-line {
+    gap: 61vw;
+  }
+  
+  .icon {
+    width: 55px;
+    height: 55px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .icons-line {
+    gap: 64vw;
+  }
+  
+  .icon {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/* Экран 600-800px */
+@media (max-width: 800px) {
+  .icons-line {
+    gap: 38vw;
+  }
+  
+  .icon {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/* Экран до 600px */
+@media (max-width: 600px) {
+  .icons-line {
+    gap: 35vw;
+  }
+  
+  .icon {
+    width: 45px;
+    height: 45px;
+  }
+}
+
+/* Экран до 480px */
+@media (max-width: 480px) {
+  .icons-line {
+    gap: 30vw;
+    top: 65%;
+  }
+  
+  .icon {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Экран до 400px */
+@media (max-width: 400px) {
+  .icons-line {
+    gap: 25vw;
+    top: 70%;
+  }
+  
+  .icon {
+    width: 35px;
+    height: 35px;
+  }
 }
