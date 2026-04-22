@@ -1,4 +1,4 @@
-import mainjpg from "../assets/opening.png";
+import mainjpg from "../assets/opening.jpg";
 import "./opening-screen.css";
 
 type Props = {
@@ -18,12 +18,21 @@ function OpeningScreen({ setScene }: Props) {
     <section className="opening-screen">
       <img src={mainjpg} alt="Welcome" className="background-image" />
 
-      <div className="icon-wrapper exit-wrapper" onClick={handleExit}>
-        <div className="exit"></div>
-      </div>
+      {/* Контейнер для иконок в линию */}
+      <div className="icons-line">
 
-      <div className="icon-wrapper enter-wrapper" onClick={handleVisitSite}>
-        <div className="enter"></div>
+        <img
+          src="/icons/exit.svg"         // 👈 из папки public
+          alt="Exit"
+          className="icon exit-icon"
+          onClick={handleExit}
+        />
+        <img
+          src="/icons/enter.svg"        // 👈 из папки public
+          alt="Enter"
+          className="icon enter-icon"
+          onClick={handleVisitSite}
+        />
       </div>
     </section>
   );
