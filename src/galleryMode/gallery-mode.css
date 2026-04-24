@@ -4,31 +4,81 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  display: flex;
+  overflow: hidden;
+  background-color: black;
   z-index: 1000;
 }
 
-/* Левая часть - 2/5 экрана */
+.gallery-content {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.gallery-content.slide-left {
+  animation: slide-left-and-fade 0.3s ease-in-out;
+}
+
+.gallery-content.slide-right {
+  animation: slide-right-and-fade 0.3s ease-in-out;
+}
+
+@keyframes slide-left-and-fade {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-right-and-fade {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
 .left {
-  width: 40%; /* 2/5 = 0.4 */
+  width: 40%;
   height: 100vh;
-  background-image: url("/gallery-bg.jpg"); /* фоновая картинка */
+  background-image: url("/gallery-bg.jpg");
   background-size: cover;
   background-position: center;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 30px;
+  flex-shrink: 0;
 }
 
-/* Кнопка "назад" */
+.right {
+  width: 60%;
+  height: 100vh;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  flex-shrink: 0;
+}
+
 .back-button {
   position: absolute;
-  top: 30px;
-  left: 30px;
-  width: 50px;
-  height: 50px;
+  top: 50px;
+  left: 50px;
+  display: inline-flex;
+  width: 80px;
+  height: 80px;
+  padding: 0;
+  border: 0;
+  background: transparent;
   cursor: pointer;
   transition: transform 0.2s;
   z-index: 10;
@@ -38,184 +88,71 @@
   transform: scale(1.1);
 }
 
-/* Название арта */
-.art-title {
-  position: absolute;
-  bottom: 50px;
-  left: 30px;
-  color: white;
-  font-size: 32px;
-  font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-  z-index: 10;
+.back-button:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.85);
+  outline-offset: 6px;
 }
 
-/* Правая часть - 3/5 экрана */
-.right {
-  width: 60%; /* 3/5 = 0.6 */
-  height: 100vh;
-  background-color: black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px;
-}
-
-/* Изображение арта */
-.art-image {
-  max-width: 100%;
-  max-height: 100%;
+.back-button-image {
+  width: 100%;
+  height: 100%;
   object-fit: contain;
 }
 
-@media (max-width: 768px) {
-  .gallery-screen {
-    flex-direction: column;
-  }
-  .left, .right {
-    width: 100%;
-    height: 50vh;
-  }
-  .art-title {
-    font-size: 20px;
-    bottom: 20px;
-    left: 20px;
-  }
-}
-
-.gallery-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    background-color: black; /* фон на случай пустоты */
-}
-
-/* 👇 Контейнер, который будет анимироваться целиком */
-.gallery-content {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-}
-
-/* Анимация уезда влево и появления справа */
-.gallery-content.slide-left {
-    animation: slideLeftAndFade 0.3s ease-in-out;
-}
-
-/* Анимация уезда вправо и появления слева */
-.gallery-content.slide-right {
-    animation: slideRightAndFade 0.3s ease-in-out;
-}
-
-@keyframes slideLeftAndFade {
-    0% {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    100% {
-        transform: translateX(-100%);
-        opacity: 0;
-    }
-}
-
-@keyframes slideRightAndFade {
-    0% {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    100% {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-}
-
-/* Левая часть - 2/5 экрана */
-.left {
-    width: 40%;
-    height: 100vh;
-    background-image: url("/gallery-bg.jpg");
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    flex-shrink: 0;
-}
-
-/* Правая часть - 3/5 экрана */
-.right {
-    width: 60%;
-    height: 100vh;
-    background-color: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.back-button {
-    position: absolute;
-    top: 50px;
-    left: 50px;
-    width: 80px;
-    height: 80px;
-    cursor: pointer;
-    transition: transform 0.2s;
-    z-index: 10;
-}
-
-.back-button:hover {
-    transform: scale(1.1);
-}
-
 .art-title {
-    font-family: "Arsenal SC";
-    position: absolute;
-    bottom: 80px;
-    left: 50px;
-    color: white;
-    font-size: 24px;
-    font-weight: 400;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-    z-index: 10;
+  font-family: "Arsenal SC";
+  position: absolute;
+  bottom: 80px;
+  left: 50px;
+  color: white;
+  font-size: 24px;
+  font-weight: 400;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  z-index: 10;
 }
 
 .progress {
-    position: absolute;
-    bottom: 30px;
-    left: 50px;
-    color: rgba(255,255,255,0.7);
-    font-size: 16px;
-    z-index: 10;
+  position: absolute;
+  bottom: 30px;
+  left: 50px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  z-index: 10;
 }
 
 .art-image {
-    max-width: 90%;
-    max-height: 90%;
-    object-fit: contain;
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  border: 1px solid white;
 }
 
-/* Мобильная адаптация */
 @media (max-width: 768px) {
-    .gallery-content {
-        flex-direction: column;
-    }
-    
-    .left, .right {
-        width: 100%;
-        height: 50vh;
-    }
-    
-    .art-title {
-        font-size: 20px;
-        bottom: 60px;
-        left: 20px;
-    }
-    
-    .progress {
-        bottom: 20px;
-        left: 20px;
-    }
+  .gallery-content {
+    flex-direction: column;
+  }
+
+  .left,
+  .right {
+    width: 100%;
+    height: 50vh;
+  }
+
+  .back-button {
+    top: 20px;
+    left: 20px;
+    width: 56px;
+    height: 56px;
+  }
+
+  .art-title {
+    bottom: 60px;
+    left: 20px;
+    font-size: 20px;
+  }
+
+  .progress {
+    bottom: 20px;
+    left: 20px;
+  }
 }
