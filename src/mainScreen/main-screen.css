@@ -38,6 +38,31 @@
   min-width: 400px; /* чтобы не схлопывалось */
   z-index:  200;
 }
+/* Почта сверху справа */
+.email-top-right {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  z-index: 250; /* Выше, чем z-index у center-image (200) */
+}
+
+.email-top-right a {
+  font-family: "Arsenal SC", monospace;
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: all 0.3s ease;
+
+  padding: 6px 12px;
+  backdrop-filter: blur(4px);
+  border-radius: 20px;
+}
+
+.email-top-right a:hover {
+  color: white;
+  /* backdrop-filter: blur(8px); */
+}
 
 /* ===== Нижняя секция ===== */
 .bottom-section {
@@ -420,3 +445,16 @@ html {
   /* Резервирует место под скроллбар, предотвращая скачки */
   scrollbar-gutter: stable;
 }
+
+@media (max-width: 768px) {
+  .email-top-right {
+    top: 12px;
+    right: 16px;
+  }
+  
+  .email-top-right a {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+}
+

@@ -29,6 +29,9 @@ function MainScreen() {
     <section className="main-screen">
       <div className="top-section">
         <img src={world} alt="Top background" className="top-bg" />
+        <div className="email-top-right">
+          <a href="mailto:vergvoktre@gmail.com">vergvoktre@gmail.com</a>
+        </div>
       </div>
 
       <img src={tree} alt="Center image" className="center-image" />
