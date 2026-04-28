@@ -7,12 +7,12 @@ interface Block2Props {
 }
 
 const circlePositions = [
-  { left: "10%", top: "23%" },
-  { left: "83%", top: "16%" },
-  { left: "25%", top: "45%" },
-  { left: "83%", top: "50%" },
-  { left: "11%", top: "67%" },
-  { left: "61%", top: "70%" },
+  { left: "10%", top: "23%", className: "circle-left-top" },
+  { left: "83%", top: "16%" , className: "circle-right-top"},
+  { left: "25%", top: "45%", className: "circle-left-top" },
+  { left: "83%", top: "50%" , className: "circle-right-top"},
+  { left: "11%", top: "67%" , className: "circle-left-top"},
+  { left: "61%", top: "70%" , className: "circle-right-top"},
 ];
 
 function BlockTwo({ arts, onArtClick }: Block2Props) {
@@ -23,7 +23,7 @@ function BlockTwo({ arts, onArtClick }: Block2Props) {
         {arts.slice(0, circlePositions.length).map((art, index) => (
           <div
             key={art.id}
-            className="circle"
+            className={`circle ${circlePositions[index].className}`}
             style={{ left: circlePositions[index].left, top: circlePositions[index].top }}
             onClick={() => onArtClick(art)}
           >

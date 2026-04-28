@@ -1,114 +1,143 @@
+/* -------------------------------------------------
+   Общий контейнер‑обёртка для фоновой картинки
+   ------------------------------------------------- */
 .opening-screen {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  inset: 0;
   overflow: hidden;
+  background: #000;               /* fallback, если изображение не загрузится */
 }
 
+/* Фоновая картинка – покрывает весь экран */
 .background-image {
   position: absolute;
-  width: 100vw;
+  width: 100%;
   height: 100%;
-  object-fit: cover;
-  display: block;
+  object-fit: cover;              /* сохраняет пропорции, обрезая лишнее */
   z-index: 1;
 }
 
-.icons-line {
+/* -------------------------------------------------
+   «Карта» (контейнер) для позиционирования иконок
+   ------------------------------------------------- */
+.overlay-container {
+  /* Центрируем контейнер, он будет масштабироваться
+     точно так же, как background-image с object‑fit: cover */
   position: absolute;
-  display: flex;
-  flex-direction: row;
+  inset: 0;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  top: 60%;
+  transform: translate(-50%, -50%);
   z-index: 50;
-  transition: opacity 0.2s;
-  gap: 52vw;
+  pointer-events: none;           /* пропускаем клики сквозь пустые места */
+  transition: opacity .3s;
 }
 
-.icons-line.hidden {
-  opacity: 0;
-  visibility: hidden;
+.icons-hotspots {
+  position: absolute;
+  /* Убираем inset: 0, используем точное центрирование */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  
+  aspect-ratio: 2126 / 1375;
+  
+  /* Важно: эти правила имитируют поведение object-fit: cover */
+  min-width: 100%;
+  min-height: 100%;
+  
+  /* Отладочный режим: раскомментируйте строку ниже, чтобы увидеть красную рамку вокруг области иконок */
+  /* outline: 2px solid red; */
 }
 
+
+
+/* 3. Убедимся, что медиа-запросы работают корректно */
+@media (min-aspect-ratio: 2126/1375) {
+  .icons-hotspots {
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-aspect-ratio: 2126/1375) {
+  .icons-hotspots {
+    width: auto;
+    height: 100%;
+  }
+}
+
+/* -------------------------------------------------
+   Кнопки‑иконки (общие стили)
+   ------------------------------------------------- */
 .icon-button {
-  display: inline-flex;
+  position: absolute;                     /* позиционирование внутри .icons-hotspots */
+  pointer-events: auto;                   /* включаем клики только на кнопках */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  /* Размеры плавно масштабируются от 40 px до 80 px */
+  width: clamp(40px, 6vw, 70px);
+  height: clamp(40px, 6vw, 70px);
+  display: inline-flex;                   /* центрируем изображение внутри кнопки */
   align-items: center;
   justify-content: center;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
+  transition: opacity .2s ease,
+              box-shadow .2s ease;
 }
 
-.icon-button:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.85);
-  outline-offset: 6px;
-}
-
+/* Иконка внутри кнопки */
 .icon {
-  width: 80px;
-  height: 80px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  transition: all .3s ease;
 }
 
-.exit-icon {
-  filter: brightness(0.35);
-  opacity: 0.6;
-}
+/* Ховер‑эффекты (прозрачность + лёгкое свечение) */
 
-.enter-icon {
-  filter: brightness(0.85);
-  opacity: 0.7;
-}
 
 .icon-button:hover .exit-icon {
-  filter: brightness(1) drop-shadow(0 0 12px rgba(0, 0, 0, 0.8));
+  filter: brightness(1) drop-shadow(0 0 12px rgb(0, 0, 0));
   opacity: 1;
 }
 
 .icon-button:hover .enter-icon {
-  filter: brightness(1) drop-shadow(0 0 12px rgba(255, 255, 255, 0.9));
+  filter: brightness(1) drop-shadow(0 0 12px rgb(255, 255, 255));
   opacity: 1;
 }
 
-.enter-wrapper {
-  position: relative;
+
+/* -------------------------------------------------
+   Пример позиционирования (замените проценты на свои)
+   ------------------------------------------------- */
+
+/* Кнопка «Exit» – левый нижний угол */
+.exit-pos {
+  /* Подставьте свои проценты, например 18% / 73% */
+  left: -6%;          /* <- замените -5% на нужное значение */
+  top: 72%;
+  transform: translate(-50%, -50%);
+  opacity: 0.3;
 }
 
-.main-wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 10;
+/* Кнопка «Enter» – правый нижний угол */
+.enter-pos {
+  left: 102%;          /* либо right: 18% */
+  top: 72%;
+  transform: translate(-50%, -50%);
+  opacity: 0.3;
 }
 
-.growing-rectangle {
-  position: fixed;
-  width: 80px;
-  height: 80px;
-  background-color: black;
-  border-radius: 0;
-  transform: translate(-50%, -50%) scale(0);
-  transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 300;
-  pointer-events: none;
-}
-
-.growing-rectangle.grow {
-  transform: translate(-50%, -50%) scale(60);
-}
-
-.growing-rectangle.stay-black {
+/* При скрытии иконок (например, во время анимации) */
+.overlay-container.hidden {
   opacity: 0;
-  transition: opacity 0.3s;
+  visibility: hidden;
 }
 
+/* -------------------------------------------------
+   Остальные слои (чёрный, белый, анимация)
+   ------------------------------------------------- */
 .black-layer {
   position: fixed;
   top: 0;
@@ -118,18 +147,12 @@
   background-color: black;
   z-index: 200;
   transform: translateX(0);
-  transition: transform 1.5s cubic-bezier(0.45, 0, 0.55, 1);
+  transition: transform 1.5s cubic-bezier(0.45,0,0.55,1);
   pointer-events: none;
   opacity: 0;
 }
-
-.black-layer.active {
-  opacity: 1;
-}
-
-.black-layer.slide-left {
-  transform: translateX(-100%);
-}
+.black-layer.active { opacity: 1; }
+.black-layer.slide-left { transform: translateX(-100%); }
 
 .white-layer {
   position: fixed;
@@ -141,138 +164,43 @@
   z-index: 150;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.01s;
+  transition: opacity .01s;
 }
+.white-layer.show { opacity: 1; transition: opacity .01s; }
+.white-layer.fade-out { opacity: 0; transition: opacity 1.2s ease-out; }
 
-.white-layer.show {
-  opacity: 1;
-  transition: opacity 0.01s;
+.growing-rectangle {
+  position: fixed;
+  width: 80px;
+  height: 80px;
+  background-color: black;
+  border-radius: 0;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 1s cubic-bezier(0.4,0,0.2,1);
+  z-index: 300;
+  pointer-events: none;
 }
+.growing-rectangle.grow { transform: translate(-50%, -50%) scale(60); }
+.growing-rectangle.stay-black { opacity: 0; transition: opacity .3s; }
 
-.white-layer.fade-out {
-  opacity: 0;
-  transition: opacity 1.2s ease-out;
+.main-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10;
 }
-
-@media (min-width: 1401px) {
-  .icons-line {
-    gap: 52vw;
-  }
-
-  .icon {
-    width: 75px;
-    height: 75px;
-  }
-}
-
-@media (max-width: 1400px) {
-  .icons-line {
-    gap: 51vw;
-  }
-
-  .icon {
-    width: 70px;
-    height: 70px;
-  }
-}
-
-@media (max-width: 1350px) {
-  .icons-line {
-    gap: 53vw;
-  }
-
-  .icon {
-    width: 65px;
-    height: 65px;
+@media (min-aspect-ratio: 2126/1375) {
+  .icons-hotspots {
+    width: 100%;
+    height: auto;
   }
 }
 
-@media (max-width: 1300px) {
-  .icons-line {
-    gap: 52vw;
-  }
-
-  .icon {
-    width: 60px;
-    height: 60px;
-  }
-}
-
-@media (max-width: 1200px) {
-  .icons-line {
-    gap: 57vw;
-  }
-
-  .icon {
-    width: 55px;
-    height: 55px;
-  }
-}
-
-@media (max-width: 1100px) {
-  .icons-line {
-    gap: 61vw;
-  }
-
-  .icon {
-    width: 55px;
-    height: 55px;
-  }
-}
-
-@media (max-width: 1000px) {
-  .icons-line {
-    gap: 64vw;
-  }
-
-  .icon {
-    width: 50px;
-    height: 50px;
-  }
-}
-
-@media (max-width: 800px) {
-  .icons-line {
-    gap: 38vw;
-  }
-
-  .icon {
-    width: 50px;
-    height: 50px;
-  }
-}
-
-@media (max-width: 600px) {
-  .icons-line {
-    gap: 35vw;
-  }
-
-  .icon {
-    width: 45px;
-    height: 45px;
-  }
-}
-
-@media (max-width: 480px) {
-  .icons-line {
-    gap: 30vw;
-    top: 65%;
-  }
-
-  .icon {
-    width: 40px;
-    height: 40px;
-  }
-}
-
-@media (max-width: 400px) {
-  .icons-line {
-    gap: 25vw;
-    top: 70%;
-  }
-
-  .icon {
-    width: 35px;
-    height: 35px;
+@media (max-aspect-ratio: 2126/1375) {
+  .icons-hotspots {
+    width: auto;
+    height: 100%;
   }
 }

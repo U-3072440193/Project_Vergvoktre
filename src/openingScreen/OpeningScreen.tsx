@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import mainjpg from "../assets/opening-hero.jpg";
+import mainjpg from "../assets/opening2.jpg";
 import MainScreen from "../mainScreen/MainScreen";
 import "./opening-screen.css";
 
@@ -89,40 +89,40 @@ function OpeningScreen({ setScene }: Props) {
       />
 
       <div
-        className={`white-layer ${animationStep >= 2 ? "show" : ""} ${
-          animationStep === 3 ? "fade-out" : ""
-        }`}
+        className={`white-layer ${animationStep >= 2 ? "show" : ""} ${animationStep === 3 ? "fade-out" : ""
+          }`}
       />
 
       <div
-        className={`growing-rectangle ${animationStep === 1 ? "grow" : ""} ${
-          animationStep === 2 ? "stay-black" : ""
-        }`}
+        className={`growing-rectangle ${animationStep === 1 ? "grow" : ""} ${animationStep === 2 ? "stay-black" : ""
+          }`}
         style={{
           left: iconPosition.x,
           top: iconPosition.y,
         }}
       />
 
-      <div className={`icons-line ${hideIcons ? "hidden" : ""}`}>
-        <button
-          type="button"
-          className="icon-button"
-          aria-label="Exit site"
-          onClick={handleExit}
-        >
-          <img src="/icons/exit.svg" alt="" className="icon exit-icon" />
-        </button>
+      <div className={`overlay-container ${hideIcons ? "hidden" : ""}`}>
+        <div className="icons-hotspots">
+          <button
+            type="button"
+            className="icon-button exit-pos"
+            aria-label="Exit site"
+            onClick={handleExit}
+          >
+            <img src="/icons/exit.svg" alt="" className="icon exit-icon" />
+          </button>
 
-        <button
-          type="button"
-          className="icon-button enter-wrapper"
-          ref={enterIconRef}
-          aria-label="Enter site"
-          onClick={handleVisitSite}
-        >
-          <img src="/icons/enter.svg" alt="" className="icon enter-icon" />
-        </button>
+          <button
+            type="button"
+            className="icon-button enter-wrapper enter-pos"
+            ref={enterIconRef}
+            aria-label="Enter site"
+            onClick={handleVisitSite}
+          >
+            <img src="/icons/enter.svg" alt="" className="icon enter-icon" />
+          </button>
+        </div>
       </div>
     </section>
   );

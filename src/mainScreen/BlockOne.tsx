@@ -7,12 +7,12 @@ interface Block1Props {
 }
 
 const circlePositions = [
-  { left: "7%", top: "16%" },
-  { left: "86%", top: "7%" },
-  { left: "68%", top: "44%" },
-  { left: "7%", top: "54%" },
-  { left: "32%", top: "69%" },
-  { left: "86%", top: "75%" },
+  { left: "7%", top: "16%", className: "circle-left-top" },
+  { left: "86%", top: "7%", className: "circle-right-top" },
+  { left: "68%", top: "44%", className: "circle-right-top" },
+  { left: "7%", top: "54%", className: "circle-left-top" },
+  { left: "32%", top: "69%", className: "circle-left-top" },
+  { left: "86%", top: "75%", className: "circle-right-top" },
 ];
 
 function BlockOne({ arts, onArtClick }: Block1Props) {
@@ -23,7 +23,7 @@ function BlockOne({ arts, onArtClick }: Block1Props) {
         {arts.slice(0, circlePositions.length).map((art, index) => (
           <div
             key={art.id}
-            className="circle"
+            className={`circle ${circlePositions[index].className}`}
             style={{
               left: circlePositions[index].left,
               top: circlePositions[index].top,
