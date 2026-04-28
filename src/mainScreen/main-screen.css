@@ -1,7 +1,46 @@
+/* ===== ПЕРЕМЕННЫЕ (CSS CUSTOM PROPERTIES) ===== */
+:root {
+  --mobile-sm: 600px;
+  --mobile-md: 768px;
+  --tablet: 900px;
+  --laptop: 1000px;
+  --laptop-lg: 1100px;
+  --laptop-xl: 1200px;
+  --desktop-sm: 1400px;
+  --desktop-md: 1500px;
+  --desktop-lg: 1600px;
+  --desktop-xl: 1700px;
+
+  /* Размеры кружков */
+  --circle-size-default: 100px;
+  --circle-size-xl: 90px;
+  --circle-size-lg: 90px;
+  --circle-size-laptop: 80px;
+  --circle-size-tablet: 75px;
+  --circle-size-mobile: 40px;
+
+  /* Отступы между блоками */
+  --block-margin-default: -100px;
+  --block-margin-xl: -97px;
+  --block-margin-lg: -95px;
+  --block-margin-md: -92px;
+  --block-margin-sm: -90px;
+  --block-margin-laptop-xl: -73px;
+  --block-margin-laptop: -70px;
+  --block-margin-tablet: -65px;
+  --block-margin-mobile-md: -50px;
+  --block-margin-mobile-sm: -35px;
+}
+
+/* ===== БАЗОВЫЕ СТИЛИ ===== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html {
+  scrollbar-gutter: stable;
 }
 
 .main-screen {
@@ -11,121 +50,7 @@
   flex-direction: column;
 }
 
-
-/* ===== Верхняя секция (50% высоты экрана) ===== */
-.top-section {
-  position: relative;
-  width: 100%;
-  height: 50vh;
-  overflow: hidden;
-}
-
-.top-bg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* Центральная картинка - поверх top-bg */
-.center-image {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  top: 55%;
-  width: 70%;
-  /* подбираешь */
-  max-width: 1100px;
-  /* ограничение */
-  min-width: 400px;
-  /* чтобы не схлопывалось */
-  z-index: 200;
-}
-
-/* Почта сверху справа */
-.email-top-right {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  z-index: 250;
-  /* Выше, чем z-index у center-image (200) */
-}
-
-.email-top-right a {
-  font-family: "Arsenal SC", monospace;
-  font-size: 14px;
-  letter-spacing: 1px;
-  color: rgba(255, 255, 255, 0.7);
-  text-decoration: none;
-  transition: all 0.3s ease;
-
-  padding: 6px 12px;
-  backdrop-filter: blur(4px);
-  border-radius: 20px;
-}
-
-.email-top-right a:hover {
-  color: white;
-  /* backdrop-filter: blur(8px); */
-}
-
-/* ===== Нижняя секция ===== */
-.bottom-section {
-  position: relative;
-  width: 100%;
-  min-height: 50vh;
-}
-
-/* Фоновая картинка - на заднем плане */
-.bottom-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
-}
-
-/* Блоки - поверх фоновой картинки */
-.blocks-container {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 50px 0px;
-  width: 100%;
-  max-width: none;
-  margin: 0 auto;
-}
-
-/* Общие стили для блоков */
-.block {
-  width: 80%;
-}
-
-.block+.block {
-  margin-top: -100px;
-  /* регулируешь это значение */
-}
-
-
-
-/*Кружки*/
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.main-screen {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
+/* ===== ВЕРХНЯЯ СЕКЦИЯ ===== */
 .top-section {
   position: relative;
   width: 100%;
@@ -144,12 +69,38 @@
   position: absolute;
   left: 50%;
   transform: translate(-50%, -50%);
+  top: 55%;
   width: 70%;
   max-width: 1100px;
   min-width: 400px;
   z-index: 200;
 }
 
+.email-top-right {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  z-index: 250;
+}
+
+.email-top-right a {
+  font-family: "Arsenal SC", monospace;
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  padding: 6px 12px;
+  backdrop-filter: blur(4px);
+  border-radius: 20px;
+
+  &:hover {
+    color: white;
+  }
+}
+
+
+/* ===== НИЖНЯЯ СЕКЦИЯ ===== */
 .bottom-section {
   position: relative;
   width: 100%;
@@ -192,7 +143,6 @@
   display: block;
 }
 
-/* Контейнер для кружков поверх картинки root */
 .circles-container {
   position: absolute;
   top: 0;
@@ -201,28 +151,62 @@
   height: 100%;
 }
 
-/* Общие стили для кружков */
+/* ===== СТИЛИ КРУЖКОВ ===== */
 .circle {
   position: absolute;
-  width: 100px;
-  height: 100px;
   border-radius: 50%;
   border: 1px solid white;
   overflow: hidden;
   cursor: pointer;
   transition: all 0.2s ease;
-
   perspective: 200px;
-
-
-  /* Градиент для объёма поверх картинки */
   background: linear-gradient(135deg,
       rgba(255, 255, 255, 0.3) 0%,
       rgba(255, 255, 255, 0) 40%,
       rgba(0, 0, 0, 0.1) 80%,
       rgba(0, 0, 0, 0.3) 100%);
+  width: 100px;
+  height: 100px;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    box-shadow: inset 0 8px 12px rgba(255, 255, 255, 0.3),
+      inset 0 -8px 12px rgba(0, 0, 0, 0.2),
+      0 0 0 2px rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 12%;
+    left: 18%;
+    width: 28%;
+    height: 22%;
+    border-radius: 50%;
+    filter: blur(1px);
+    pointer-events: none;
+  }
 }
 
+
+.circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.circle:hover {
+  box-shadow: 0 0 20px 5px white;
+}
+
+/* Толстые границы */
 .circle-left-top {
   border-right: 4px solid white;
 }
@@ -231,55 +215,8 @@
   border-left: 4px solid white;
 }
 
-/* Внутренняя тень для выпуклости */
-.circle::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  box-shadow: inset 0 8px 12px rgba(255, 255, 255, 0.3),
-    inset 0 -8px 12px rgba(0, 0, 0, 0.2),
-    0 0 0 2px rgba(255, 255, 255, 0.5);
-  pointer-events: none;
-}
-
-/* Основной блик */
-.circle::after {
-  content: '';
-  position: absolute;
-  top: 12%;
-  left: 18%;
-  width: 28%;
-  height: 22%;
-  border-radius: 50%;
-
-  filter: blur(1px);
-  pointer-events: none;
-}
-
-.circle img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* Ховер эффект */
-
-
-
-
-.circle:hover {
-  box-shadow: 0 0 20px 5px white
-}
-
-
-
-
-/* 👇 ПОЗИЦИИ КРУЖКОВ - РЕГУЛИРУЙ ПОД СВОЮ КАРТИНКУ */
-/* Блок 1 (root1.svg) - позиции для 6 кружков */
+/* ===== ПОЗИЦИИ КРУЖКОВ ===== */
+/* Блок 1 (root1.svg) */
 .block-1 .circle-1 {
   left: 10%;
   top: 20%;
@@ -310,7 +247,7 @@
   top: 70%;
 }
 
-/* Блок 2 (root2.svg) - свои позиции */
+/* Блок 2 (root2.svg) */
 .block-2 .circle-1 {
   left: 15%;
   top: 30%;
@@ -341,200 +278,41 @@
   top: 80%;
 }
 
+/* ===== МЕДИА-ЗАПРОСЫ ===== */
 
-
-@media (max-width: 1700px) {
-  .block {
-    width: 95%;
-  }
-
-  .block+.block {
-    margin-top: -97px;
-  }
-
-  .circle {
-    width: 100px;
-    height: 100px;
-    border-width: 2px;
-  }
-}
-
-@media (max-width: 1600px) {
-  .block {
-    width: 95%;
-  }
-
-  .block+.block {
-    margin-top: -95px;
-  }
-
-  .circle {
-    width: 100px;
-    height: 100px;
-    border-width: 2px;
-  }
-}
-
-@media (max-width: 1500px) {
-  .block {
-    width: 95%;
-  }
-
-  .block+.block {
-    margin-top: -92px;
-  }
-
-  .circle {
-    width: 100px;
-    height: 100px;
-    border-width: 2px;
-  }
-}
-
+/* Центральная картинка */
 @media (max-width: 1400px) {
   .center-image {
     top: 58%;
     width: 68%;
-  }
-
-  .block {
-    width: 95%;
-  }
-
-  .block+.block {
-    margin-top: -90px;
-  }
-
-  .circle {
-    width: 100px;
-    height: 100px;
-    border-width: 2px;
   }
 }
 
 @media (max-width: 1200px) {
   .center-image {
     top: 60%;
-    width: 68%;
-  }
-
-  .block {
-    width: 95%;
-  }
-
-  .block+.block {
-    margin-top: -73px;
-  }
-
-  .circle {
-    width: 90px;
-    height: 90px;
-    border-width: 2px;
   }
 }
 
 @media (max-width: 1100px) {
   .center-image {
     top: 62%;
-    width: 68%;
-  }
-
-  .block {
-    width: 95%;
-  }
-
-  .block+.block {
-    margin-top: -73px;
-  }
-
-  .circle {
-    width: 90px;
-    height: 90px;
-    border-width: 2px;
   }
 }
-
 
 @media (max-width: 1000px) {
   .center-image {
     top: 65%;
-    width: 68%;
-  }
-
-  .block {
-    width: 95%;
-  }
-
-  .block+.block {
-    margin-top: -70px;
-  }
-
-  .circle {
-    width: 80px;
-    height: 80px;
-    border-width: 2px;
-  }
-}
-
-
-@media (max-width: 900px) {
-  .block {
-    width: 95%;
-  }
-
-  .block+.block {
-    margin-top: -65px;
-  }
-
-  .circle {
-    width: 75px;
-    height: 75px;
-    border-width: 2px;
   }
 }
 
 @media (max-width: 768px) {
   .center-image {
     top: 66%;
-    width: 68%;
-  }
-
-  .block {
-    width: 95%;
-  }
-
-  .block+.block {
-    margin-top: -50px;
-  }
-
-  .circle {
-    width: 40px;
-    height: 40px;
-    border-width: 2px;
   }
 }
 
-@media (max-width: 600px) {
-  .block {
-    width: 95%;
-  }
-
-  .block+.block {
-    margin-top: -35px;
-  }
-
-  .circle {
-    width: 40px;
-    height: 40px;
-    border-width: 2px;
-  }
-}
-
-html {
-  /* Резервирует место под скроллбар, предотвращая скачки */
-  scrollbar-gutter: stable;
-}
-
+/* Email секция */
 @media (max-width: 768px) {
   .email-top-right {
     top: 12px;
@@ -544,5 +322,104 @@ html {
   .email-top-right a {
     font-size: 11px;
     padding: 4px 10px;
+  }
+}
+
+/* Размеры блоков */
+@media (max-width: 1700px),
+(max-width: 1600px),
+(max-width: 1500px),
+(max-width: 1400px),
+(max-width: 900px),
+(max-width: 768px),
+(max-width: 600px) {
+  .block {
+    width: 95%;
+  }
+}
+
+/* Отступы между блоками */
+@media (max-width: 1700px) {
+  .block+.block {
+    margin-top: -97px;
+  }
+}
+
+@media (max-width: 1600px) {
+  .block+.block {
+    margin-top: -95px;
+  }
+}
+
+@media (max-width: 1500px) {
+  .block+.block {
+    margin-top: -92px;
+  }
+}
+
+@media (max-width: 1400px) {
+  .block+.block {
+    margin-top: -90px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .block+.block {
+    margin-top: -73px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .block+.block {
+    margin-top: -70px;
+  }
+}
+
+@media (max-width: 900px) {
+  .block+.block {
+    margin-top: -65px;
+  }
+}
+
+@media (max-width: 768px) {
+  .block+.block {
+    margin-top: -50px;
+  }
+}
+
+@media (max-width: 600px) {
+  .block+.block {
+    margin-top: -35px;
+  }
+}
+
+/* Размеры кружков */
+@media (max-width: 1200px),
+(max-width: 1100px) {
+  .circle {
+    width: 90px;
+    height: 90px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .circle {
+    width: 80px;
+    height: 80px;
+  }
+}
+
+@media (max-width: 900px) {
+  .circle {
+    width: 75px;
+    height: 75px;
+  }
+}
+
+@media (max-width: 768px),
+(max-width: 600px) {
+  .circle {
+    width: 40px;
+    height: 40px;
   }
 }

@@ -1,29 +1,17 @@
-.gallery-screen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background-color: black;
-  z-index: 1000;
+/* ===== ПЕРЕМЕННЫЕ (CSS CUSTOM PROPERTIES) ===== */
+:root {
+  --mobile-breakpoint: 768px;
+  --transition-normal: 0.3s;
+  --transition-fast: 0.2s;
+
+  --button-size-desktop: 80px;
+  --button-size-mobile: 56px;
+
+  --title-size-desktop: 24px;
+  --title-size-mobile: 20px;
 }
 
-.gallery-content {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-}
-
-.gallery-content.slide-left {
-  animation: slide-left-and-fade 0.3s ease-in-out;
-}
-
-.gallery-content.slide-right {
-  animation: slide-right-and-fade 0.3s ease-in-out;
-}
-
+/* ===== КЛЮЧЕВЫЕ КАДРЫ ===== */
 @keyframes slide-left-and-fade {
   0% {
     transform: translateX(0);
@@ -48,6 +36,41 @@
   }
 }
 
+/* ===== ОСНОВНЫЕ СТИЛИ ===== */
+.gallery-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: black;
+  z-index: 1000;
+}
+
+.gallery-content {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform var(--transition-normal) ease-in-out,
+    opacity var(--transition-normal) ease-in-out;
+}
+
+.gallery-content.slide-left {
+  animation: slide-left-and-fade var(--transition-normal) ease-in-out;
+}
+
+.gallery-content.slide-right {
+  animation: slide-right-and-fade var(--transition-normal) ease-in-out;
+}
+
+/* Native CSS Nesting (работает в современных браузерах) */
+.gallery-content {
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
 .left {
   width: 40%;
   height: 100vh;
@@ -56,6 +79,13 @@
   background-position: center;
   position: relative;
   flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .left {
+    width: 100%;
+    height: 50vh;
+  }
 }
 
 .right {
@@ -69,28 +99,48 @@
   flex-shrink: 0;
 }
 
+@media (max-width: 768px) {
+  .right {
+    width: 100%;
+    height: 50vh;
+  }
+}
+
 .back-button {
   position: absolute;
   top: 50px;
   left: 50px;
   display: inline-flex;
-  width: 80px;
-  height: 80px;
+  width: var(--button-size-desktop);
+  height: var(--button-size-desktop);
   padding: 0;
   border: 0;
   background: transparent;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform var(--transition-fast);
   z-index: 10;
+
+  &:hover .back-button-image {
+    filter: drop-shadow(0 0 12px white);
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.85);
+    outline-offset: 6px;
+  }
 }
 
-.back-button:hover {
-  transform: scale(1.1);
-}
 
-.back-button:focus-visible {
-  outline: 2px solid rgba(255, 255, 255, 0.85);
-  outline-offset: 6px;
+
+
+
+@media (max-width: 768px) {
+  .back-button {
+    top: 20px;
+    left: 20px;
+    width: var(--button-size-mobile);
+    height: var(--button-size-mobile);
+  }
 }
 
 .back-button-image {
@@ -100,15 +150,23 @@
 }
 
 .art-title {
-  font-family: "Arsenal SC";
   position: absolute;
   bottom: 80px;
   left: 50px;
+  font-family: "Arsenal SC";
   color: white;
-  font-size: 24px;
+  font-size: var(--title-size-desktop);
   font-weight: 400;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   z-index: 10;
+}
+
+@media (max-width: 768px) {
+  .art-title {
+    bottom: 60px;
+    left: 20px;
+    font-size: var(--title-size-mobile);
+  }
 }
 
 .progress {
@@ -120,39 +178,16 @@
   z-index: 10;
 }
 
+@media (max-width: 768px) {
+  .progress {
+    bottom: 20px;
+    left: 20px;
+  }
+}
+
 .art-image {
   max-width: 90%;
   max-height: 90%;
   object-fit: contain;
   border: 1px solid white;
-}
-
-@media (max-width: 768px) {
-  .gallery-content {
-    flex-direction: column;
-  }
-
-  .left,
-  .right {
-    width: 100%;
-    height: 50vh;
-  }
-
-  .back-button {
-    top: 20px;
-    left: 20px;
-    width: 56px;
-    height: 56px;
-  }
-
-  .art-title {
-    bottom: 60px;
-    left: 20px;
-    font-size: 20px;
-  }
-
-  .progress {
-    bottom: 20px;
-    left: 20px;
-  }
 }

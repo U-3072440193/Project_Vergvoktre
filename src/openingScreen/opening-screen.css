@@ -1,3 +1,18 @@
+/* ===== ПЕРЕМЕННЫЕ (CSS CUSTOM PROPERTIES) ===== */
+:root {
+  --transition-fast: 0.2s;
+  --transition-normal: 0.3s;
+  --transition-slow: 1.5s;
+  --transition-slower: 1.2s;
+
+  --z-bg: 1;
+  --z-main: 10;
+  --z-white: 150;
+  --z-black: 200;
+  --z-rectangle: 300;
+  --z-overlay: 50;
+}
+
 /* -------------------------------------------------
    Общий контейнер‑обёртка для фоновой картинки
    ------------------------------------------------- */
@@ -5,54 +20,42 @@
   position: fixed;
   inset: 0;
   overflow: hidden;
-  background: #000;               /* fallback, если изображение не загрузится */
+  background: #000;
 }
 
-/* Фоновая картинка – покрывает весь экран */
 .background-image {
   position: absolute;
   width: 100%;
   height: 100%;
-  object-fit: cover;              /* сохраняет пропорции, обрезая лишнее */
-  z-index: 1;
+  object-fit: cover;
+  z-index: var(--z-bg);
 }
 
 /* -------------------------------------------------
    «Карта» (контейнер) для позиционирования иконок
    ------------------------------------------------- */
 .overlay-container {
-  /* Центрируем контейнер, он будет масштабироваться
-     точно так же, как background-image с object‑fit: cover */
   position: absolute;
   inset: 0;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 50;
-  pointer-events: none;           /* пропускаем клики сквозь пустые места */
-  transition: opacity .3s;
+  z-index: var(--z-overlay);
+  pointer-events: none;
+  transition: opacity var(--transition-normal);
 }
 
 .icons-hotspots {
   position: absolute;
-  /* Убираем inset: 0, используем точное центрирование */
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  
   aspect-ratio: 2126 / 1375;
-  
-  /* Важно: эти правила имитируют поведение object-fit: cover */
   min-width: 100%;
   min-height: 100%;
-  
-  /* Отладочный режим: раскомментируйте строку ниже, чтобы увидеть красную рамку вокруг области иконок */
-  /* outline: 2px solid red; */
 }
 
-
-
-/* 3. Убедимся, что медиа-запросы работают корректно */
+/* Медиа-запросы */
 @media (min-aspect-ratio: 2126/1375) {
   .icons-hotspots {
     width: 100%;
@@ -68,75 +71,71 @@
 }
 
 /* -------------------------------------------------
-   Кнопки‑иконки (общие стили)
+   Кнопки‑иконки
    ------------------------------------------------- */
 .icon-button {
-  position: absolute;                     /* позиционирование внутри .icons-hotspots */
-  pointer-events: auto;                   /* включаем клики только на кнопках */
+  position: absolute;
+  pointer-events: auto;
   background: transparent;
   border: none;
   cursor: pointer;
   padding: 0;
-  /* Размеры плавно масштабируются от 40 px до 80 px */
   width: clamp(40px, 6vw, 70px);
   height: clamp(40px, 6vw, 70px);
-  display: inline-flex;                   /* центрируем изображение внутри кнопки */
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: opacity .2s ease,
-              box-shadow .2s ease;
+  transition: opacity var(--transition-fast) ease, box-shadow var(--transition-fast) ease;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &:hover .enter-icon {
+    filter: drop-shadow(0 0 12px rgb(255, 255, 255));
+    opacity: 1;
+  }
+  
+
+  &:hover .exit-icon {
+    filter: drop-shadow(0 0 12px rgb(0, 0, 0));
+    opacity: 1;
+  }
 }
 
-/* Иконка внутри кнопки */
+
+
 .icon {
   width: 100%;
   height: 100%;
-  transition: all .3s ease;
-}
-
-/* Ховер‑эффекты (прозрачность + лёгкое свечение) */
-
-
-.icon-button:hover .exit-icon {
-  filter: brightness(1) drop-shadow(0 0 12px rgb(0, 0, 0));
-  opacity: 1;
-}
-
-.icon-button:hover .enter-icon {
-  filter: brightness(1) drop-shadow(0 0 12px rgb(255, 255, 255));
-  opacity: 1;
+  transition: all var(--transition-normal) ease;
 }
 
 
 /* -------------------------------------------------
-   Пример позиционирования (замените проценты на свои)
+   Позиционирование кнопок
    ------------------------------------------------- */
-
-/* Кнопка «Exit» – левый нижний угол */
 .exit-pos {
-  /* Подставьте свои проценты, например 18% / 73% */
-  left: -6%;          /* <- замените -5% на нужное значение */
+  left: -6%;
   top: 72%;
   transform: translate(-50%, -50%);
   opacity: 0.3;
 }
 
-/* Кнопка «Enter» – правый нижний угол */
 .enter-pos {
-  left: 102%;          /* либо right: 18% */
+  left: 102%;
   top: 72%;
   transform: translate(-50%, -50%);
   opacity: 0.3;
 }
 
-/* При скрытии иконок (например, во время анимации) */
 .overlay-container.hidden {
   opacity: 0;
   visibility: hidden;
 }
 
 /* -------------------------------------------------
-   Остальные слои (чёрный, белый, анимация)
+   Слои для анимации
    ------------------------------------------------- */
 .black-layer {
   position: fixed;
@@ -145,14 +144,20 @@
   width: 100%;
   height: 100%;
   background-color: black;
-  z-index: 200;
+  z-index: var(--z-black);
   transform: translateX(0);
-  transition: transform 1.5s cubic-bezier(0.45,0,0.55,1);
+  transition: transform var(--transition-slow) cubic-bezier(0.45, 0, 0.55, 1);
   pointer-events: none;
   opacity: 0;
 }
-.black-layer.active { opacity: 1; }
-.black-layer.slide-left { transform: translateX(-100%); }
+
+.black-layer.active {
+  opacity: 1;
+}
+
+.black-layer.slide-left {
+  transform: translateX(-100%);
+}
 
 .white-layer {
   position: fixed;
@@ -161,13 +166,21 @@
   width: 100%;
   height: 100%;
   background-color: white;
-  z-index: 150;
+  z-index: var(--z-white);
   opacity: 0;
   pointer-events: none;
-  transition: opacity .01s;
+  transition: opacity 0.01s;
 }
-.white-layer.show { opacity: 1; transition: opacity .01s; }
-.white-layer.fade-out { opacity: 0; transition: opacity 1.2s ease-out; }
+
+.white-layer.show {
+  opacity: 1;
+  transition: opacity 0.01s;
+}
+
+.white-layer.fade-out {
+  opacity: 0;
+  transition: opacity var(--transition-slower) ease-out;
+}
 
 .growing-rectangle {
   position: fixed;
@@ -176,31 +189,25 @@
   background-color: black;
   border-radius: 0;
   transform: translate(-50%, -50%) scale(0);
-  transition: transform 1s cubic-bezier(0.4,0,0.2,1);
-  z-index: 300;
+  transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: var(--z-rectangle);
   pointer-events: none;
 }
-.growing-rectangle.grow { transform: translate(-50%, -50%) scale(60); }
-.growing-rectangle.stay-black { opacity: 0; transition: opacity .3s; }
+
+.growing-rectangle.grow {
+  transform: translate(-50%, -50%) scale(60);
+}
+
+.growing-rectangle.stay-black {
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
 
 .main-wrapper {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 10;
-}
-@media (min-aspect-ratio: 2126/1375) {
-  .icons-hotspots {
-    width: 100%;
-    height: auto;
-  }
-}
-
-@media (max-aspect-ratio: 2126/1375) {
-  .icons-hotspots {
-    width: auto;
-    height: 100%;
-  }
+  width: 100%;
+  height: 100%;
+  z-index: var(--z-main);
 }
